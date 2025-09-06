@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tic-Tac-Takeover</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Tic-Tac-Takeover</h1>
+      <section class="controls">
+        <div class="left">
+          <div id="status" class="status" aria-live="polite">Bullet Bill’s turn</div>
+          <div class="scores" aria-label="scores">
+            <span class="score chip bullet"><span class="icon"></span> <span id="scoreBullet">0</span> <sup id="tokBullet" class="tok" title="Bullet Bill takeovers left">x1</sup></span>
+            <span class="score chip star"><span class="icon"></span> <span id="scoreStar">0</span> <sup id="tokStar" class="tok" title="Super Star takeovers left">x1</sup></span>
+          </div>
+        </div>
+        <div class="buttons">
+          <button id="soundToggle" class="btn" type="button" aria-pressed="true">Sound: On</button>
+          <button id="clearScores" class="btn" type="button" title="Set both scores to 0">Clear Scores</button>
+          <button id="reset" class="btn" type="button">Reset</button>
+        </div>
+      </section>
+
+      <section class="board" role="grid" aria-label="Tic Tac Toe board">
+        <!-- 9 cells -->
+        <button class="cell" role="gridcell" aria-label="cell 1" data-index="0"></button>
+        <button class="cell" role="gridcell" aria-label="cell 2" data-index="1"></button>
+        <button class="cell" role="gridcell" aria-label="cell 3" data-index="2"></button>
+        <button class="cell" role="gridcell" aria-label="cell 4" data-index="3"></button>
+        <button class="cell" role="gridcell" aria-label="cell 5" data-index="4"></button>
+        <button class="cell" role="gridcell" aria-label="cell 6" data-index="5"></button>
+        <button class="cell" role="gridcell" aria-label="cell 7" data-index="6"></button>
+        <button class="cell" role="gridcell" aria-label="cell 8" data-index="7"></button>
+        <button class="cell" role="gridcell" aria-label="cell 9" data-index="8"></button>
+      </section>
+
+      <div id="message" class="message" aria-live="polite">Let’s play! Kaboom or sparkle!</div>
+
+      <footer class="footer">
+        <small>Two players on one device. Bullet Bill vs. Super Star.</small>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+  </html>

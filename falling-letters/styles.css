@@ -1,0 +1,161 @@
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: #ccffcc; /* light green */
+  color: #000; /* all text black */
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+#keyboard {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 6px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  user-select: none;
+}
+
+.control-btn {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.04));
+  color: #000;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+#controls {
+  position: fixed;
+  top: 44px; /* below score HUD */
+  left: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.key {
+  min-width: 38px;
+  height: 42px;
+  padding: 0 8px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #000;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 10px rgba(0,0,0,0.25);
+  transition: transform 120ms ease, box-shadow 120ms ease, background 200ms ease;
+  position: relative; /* allow home-key bump */
+}
+
+.key.glow {
+  box-shadow: 0 0 0 2px rgba(255, 235, 120, 0.7), 0 0 18px rgba(255, 213, 72, 0.85), inset 0 1px 0 rgba(255,255,255,0.15);
+  background: linear-gradient(180deg, rgba(255, 234, 150, 0.3), rgba(255, 200, 80, 0.12));
+}
+
+.key.hit {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 0 0 2px rgba(120, 255, 182, 0.8), 0 0 20px rgba(120, 255, 182, 0.9);
+  background: linear-gradient(180deg, rgba(120,255,182,0.28), rgba(60,200,150,0.18));
+}
+
+/* Finger color zones: color the letter glyphs, not the key background */
+.key.color-red { color: #e13333; }
+.key.color-yellow { color: #cc9900; }
+.key.color-purple { color: #7a3cff; }
+.key.color-blue { color: #2b6cff; }
+
+/* Make F and J special: add a small tactile bump indicator */
+.key.home-key::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 4px;
+  background: currentColor; /* uses the per-finger text color */
+  border-radius: 3px;
+  opacity: 0.85;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+#overlay.hidden {
+  display: none;
+}
+
+#overlay .panel {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 28px 24px;
+  width: min(520px, 90vw);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+#overlay h1 {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+}
+
+#overlay p {
+  margin: 0 0 12px 0;
+  color: #000;
+}
+
+#overlay ul {
+  margin: 0 0 16px 0;
+  padding: 0 0 0 20px;
+  text-align: left;
+}
+
+#startBtn {
+  appearance: none;
+  border: 0;
+  background: linear-gradient(180deg, #4aa8ff, #2e79ff);
+  color: #000;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(46, 121, 255, 0.4);
+}
+#startBtn:active {
+  transform: translateY(1px);
+}

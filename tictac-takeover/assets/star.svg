@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="s" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#fff9c4"/>
+      <stop offset="1" stop-color="#ffd166"/>
+    </radialGradient>
+  </defs>
+  <g fill="url(#s)" stroke="#f6b93b" stroke-width="2" stroke-linejoin="round">
+    <path d="M50 10 L60 38 L90 38 L65 55 L75 85 L50 67 L25 85 L35 55 L10 38 L40 38 Z"/>
+  </g>
+  <!-- Cute eyes -->
+  <g>
+    <!-- Black eyes, slightly longer vertically -->
+    <ellipse cx="42" cy="50" rx="3.2" ry="8.2" fill="#0b0d12"/>
+    <ellipse cx="58" cy="50" rx="3.2" ry="8.2" fill="#0b0d12"/>
+    <!-- White caps at the top of each eye for a cute look -->
+    <ellipse cx="42" cy="46.7" rx="2.6" ry="2.1" fill="#ffffff"/>
+    <ellipse cx="58" cy="46.7" rx="2.6" ry="2.1" fill="#ffffff"/>
+  </g>
+  <!-- Subtle blush for extra cuteness -->
+  <g opacity="0.6">
+    <circle cx="33" cy="58" r="2.6" fill="#ffadcc"/>
+    <circle cx="67" cy="58" r="2.6" fill="#ffadcc"/>
+  </g>
+</svg>
