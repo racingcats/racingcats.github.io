@@ -24,6 +24,7 @@
   let spawnTimer = 0;
   let nextSpawnDelay = 0; // seconds
   const floorH = 24;
+  let reservedBottom = 0; // reserved space above bottom UI like keyboard
 
   const letterFontSize = 36; // CSS px
   // Base speed (Normal). We scale with speedFactor for Slow/Normal/Fast
@@ -51,6 +52,8 @@
     canvas.style.height = height + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.imageSmoothingEnabled = true;
+    updateKeyboardScale();
+    measureReservedBottom();
   }
 
   window.addEventListener('resize', resize);
@@ -119,8 +122,9 @@
       letter.y += letter.speed * dt;
     }
     // Remove missed
+    const playBottomY = height - reservedBottom;
     letters = letters.filter(l => {
-      if (l.y > height - floorH) {
+      if (l.y > playBottomY - floorH) {
         missed++;
         return false;
       }
@@ -137,9 +141,10 @@
     ctx.fillStyle = '#ccffcc';
     ctx.fillRect(0, 0, width, height);
 
-    // Ground
+    // Ground (sit above on-screen keyboard)
     ctx.fillStyle = 'rgba(255 255 255 / 0.12)';
-    ctx.fillRect(0, height - floorH, width, floorH);
+    const playBottomY2 = height - reservedBottom;
+    ctx.fillRect(0, playBottomY2 - floorH, width, floorH);
 
     // HUD
     ctx.fillStyle = '#000000';
@@ -319,6 +324,29 @@
     sfx.ensure(); // enable audio on first touch/click
     handleLetterInput(k);
   });
+
+  // --- Responsive keyboard scaling and layout measurement ---
+  function updateKeyboardScale() {
+    if (!kbRoot) return;
+    // Reset scale to measure natural width
+    kbRoot.style.setProperty('--kb-scale', '1');
+    const natural = kbRoot.scrollWidth || kbRoot.offsetWidth || 0;
+    const maxWidth = Math.max(300, width - 24);
+    let s = 1;
+    if (natural > 0) s = Math.min(1, maxWidth / natural);
+    s = Math.max(0.68, s); // keep taps usable
+    kbRoot.style.setProperty('--kb-scale', String(s));
+  }
+
+  function measureReservedBottom() {
+    if (!kbRoot) { reservedBottom = 0; return; }
+    const rect = kbRoot.getBoundingClientRect();
+    reservedBottom = Math.ceil(rect.height + 8); // small spacing
+  }
+
+  // Initial measurement
+  updateKeyboardScale();
+  measureReservedBottom();
 
   // ---- Finger mappings (QWERTY) ----
   // Standard QWERTY touch-typing mapping (B to left index)

@@ -17,8 +17,9 @@ body {
 #keyboard {
   position: fixed;
   left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%) scale(var(--kb-scale, 1));
+  transform-origin: center bottom;
   display: grid;
   grid-auto-rows: min-content;
   gap: 6px;
@@ -28,6 +29,15 @@ body {
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
   user-select: none;
+  z-index: 5;
+}
+
+@media (max-height: 640px) {
+  #keyboard { gap: 4px; padding: 8px 10px; }
+}
+
+@media (max-width: 420px) {
+  .key { min-width: 34px; height: 38px; padding: 0 6px; }
 }
 
 .control-btn {
