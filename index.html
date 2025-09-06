@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Harry's Game Shop</title>
+    <meta name="description" content="Harry's Game Shop — play Falling Letters and Tic‑Tac Takeover in your browser." />
+    <style>
+      :root {
+        --bg: #0f1221;
+        --panel: #171b34;
+        --text: #eef1ff;
+        --muted: #a9b0d6;
+        --accent: #6aa7ff;
+        --accent-2: #7cf7c9;
+        --card: #1c2142;
+        --card-hover: #232955;
+        --shadow: 0 10px 25px rgba(0,0,0,0.35);
+        --radius: 14px;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+        background: var(--bg);
+        color: var(--text);
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 24px;
+        position: relative;
+        overflow-x: hidden;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: -10%;
+        z-index: -1;
+        background: conic-gradient(
+          from 0deg at 50% 50%,
+          #ff6ec7,
+          #ffd166,
+          #8cff66,
+          #00c2ff,
+          #a78bfa,
+          #ff6ec7
+        );
+        filter: saturate(1.1) brightness(1.05);
+        /* Static (no motion) */
+        transform: rotate(18deg) scale(1.08);
+        transform-origin: 50% 50%;
+      }
+      /* Soft vignettes to keep content readable on top of colors */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background:
+          radial-gradient(1000px 700px at 20% -10%, rgba(255,255,255,0.20), rgba(255,255,255,0) 60%),
+          radial-gradient(900px 650px at 85% 115%, rgba(255,255,255,0.16), rgba(255,255,255,0) 60%),
+          linear-gradient(180deg, rgba(7,10,24,0.55), rgba(7,10,24,0.65));
+      }
+      /* No animations; motion removed for a calm feel */
+      header {
+        padding: 28px 20px 0;
+        text-align: center;
+      }
+      h1 {
+        margin: 4px 0 6px;
+        font-size: clamp(28px, 4vw, 40px);
+        letter-spacing: 0.3px;
+      }
+      .tagline {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      main {
+        max-width: 1000px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 10px 20px 24px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 22px;
+      }
+      .card {
+        background: linear-gradient(180deg, var(--card), var(--panel));
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: var(--radius);
+        padding: 18px 18px 16px;
+        box-shadow: var(--shadow);
+        display: grid;
+        align-content: start;
+        gap: 12px;
+        min-height: 180px;
+        transition: background 200ms ease, box-shadow 120ms ease, border-color 120ms ease;
+      }
+      .thumb {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+      .thumb img {
+        display: block;
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        background: #0b0f26;
+      }
+      .card:hover {
+        background: linear-gradient(180deg, var(--card-hover), var(--panel));
+        box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+        border-color: rgba(255,255,255,0.1);
+      }
+      .card h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        font-size: 12px;
+        border-radius: 999px;
+        color: #0b0d19;
+        font-weight: 700;
+        background: linear-gradient(90deg, #ffd166, #ff9f1a);
+        border: 1px solid rgba(0,0,0,0.08);
+      }
+      .badge.alt { background: linear-gradient(90deg, #7cf7c9, #6aa7ff); }
+      .desc {
+        color: var(--muted);
+        margin: 0 0 4px;
+        line-height: 1.35;
+        font-size: 14px;
+      }
+      .actions {
+        margin-top: 8px;
+      }
+      .btn {
+        display: inline-block;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        color: #0b0d19;
+        text-decoration: none;
+        font-weight: 700;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-size: 14px;
+        box-shadow: 0 6px 18px rgba(106, 167, 255, 0.35);
+      }
+      .btn:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+      footer {
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+        padding: 0 0 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>🎮 Harry's Game Shop</h1>
+      <p class="tagline">Kid‑friendly browser games — no installs, just play!</p>
+    </header>
+    <main>
+      <section class="grid" aria-label="Game list">
+        <article class="card">
+          <div class="thumb">
+            <img src="img/falling-letters.png" alt="Falling Letters — screenshot">
+          </div>
+          <h2>Falling Letters</h2>
+          <div class="badges">
+            <span class="badge">Typing</span>
+            <span class="badge alt">Quick Play</span>
+          </div>
+          <p class="desc">Colorful letters fall from the top — type A–Z to catch them. Miss too many and you lose a life. Great for practicing typing!</p>
+          <div class="actions">
+            <a class="btn" href="./falling-letters/">Play Falling Letters</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb">
+            <img src="img/tic-tack-takeover.png" alt="Tic‑Tac Takeover — screenshot">
+          </div>
+          <h2>Tic‑Tac Takeover</h2>
+          <div class="badges">
+            <span class="badge">Two Players</span>
+            <span class="badge alt">Classic</span>
+          </div>
+          <p class="desc">A lively two‑player tic‑tac‑toe with Bullet vs. Star theme, score tracking, animations, and sound toggle.</p>
+          <div class="actions">
+            <a class="btn" href="./tictac-takeover/">Play Tic‑Tac Takeover</a>
+          </div>
+        </article>
+      </section>
+    </main>
+    <footer>
+      <span>Made with ❤️  by Harry</span>
+    </footer>
+  </body>
+  </html>
