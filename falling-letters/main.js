@@ -185,7 +185,37 @@
 
   requestAnimationFrame(loop);
 
-  // Input
+  // Unified letter handler so physical and on-screen keys share logic
+  function handleLetterInput(k) {
+    if (!k || k.length !== 1 || k < 'A' || k > 'Z') return;
+    if (!running) {
+      overlay.classList.add('hidden');
+      reset();
+      return;
+    }
+    // Find the lowest matching letter (closest to ground)
+    let bestIndex = -1;
+    let bestY = -Infinity;
+    for (let i = 0; i < letters.length; i++) {
+      const l = letters[i];
+      if (l.c === k && l.y > bestY) {
+        bestY = l.y;
+        bestIndex = i;
+      }
+    }
+    if (bestIndex !== -1) {
+      const removed = letters.splice(bestIndex, 1)[0];
+      score += 1;
+      pulseKey(k, true);
+      spawnBurst(removed.x, removed.y, removed.color);
+      sfx.bling();
+    } else {
+      pulseKey(k, false);
+      sfx.tick();
+    }
+  }
+
+  // Physical keyboard input
   window.addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = (e.key || '').toUpperCase();
@@ -202,31 +232,7 @@
       return;
     }
     if (k.length === 1 && k >= 'A' && k <= 'Z') {
-      if (!running) {
-        overlay.classList.add('hidden');
-        reset();
-        return;
-      }
-      // Find the lowest matching letter (closest to ground)
-      let bestIndex = -1;
-      let bestY = -Infinity;
-      for (let i = 0; i < letters.length; i++) {
-        const l = letters[i];
-        if (l.c === k && l.y > bestY) {
-          bestY = l.y;
-          bestIndex = i;
-        }
-      }
-      if (bestIndex !== -1) {
-        const removed = letters.splice(bestIndex, 1)[0];
-        score += 1;
-        pulseKey(k, true);
-        spawnBurst(removed.x, removed.y, removed.color);
-        sfx.bling();
-      } else {
-        pulseKey(k, false);
-        sfx.tick();
-      }
+      handleLetterInput(k);
     }
   });
 
@@ -303,6 +309,16 @@
     }
   }
   buildKeyboard();
+  // Make on-screen keys clickable/touchable (iPad/iPhone)
+  kbRoot.addEventListener('pointerdown', (e) => {
+    const target = e.target;
+    if (!(target instanceof HTMLElement)) return;
+    const k = (target.getAttribute('data-key') || '').toUpperCase();
+    if (!k) return;
+    e.preventDefault();
+    sfx.ensure(); // enable audio on first touch/click
+    handleLetterInput(k);
+  });
 
   // ---- Finger mappings (QWERTY) ----
   // Standard QWERTY touch-typing mapping (B to left index)
