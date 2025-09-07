@@ -97,8 +97,8 @@
   function gameOver() {
     running = false;
     paused = false;
-    overlay.classList.remove('hidden');
-    startBtn.textContent = 'Play again';
+    if (overlay) overlay.classList.remove('hidden');
+    if (startBtn) startBtn.textContent = 'Play again';
     updatePauseButton();
   }
 
@@ -194,7 +194,7 @@
   function handleLetterInput(k) {
     if (!k || k.length !== 1 || k < 'A' || k > 'Z') return;
     if (!running) {
-      overlay.classList.add('hidden');
+      if (overlay) overlay.classList.add('hidden');
       reset();
       return;
     }
@@ -242,11 +242,13 @@
   });
 
   // Start button / click overlay
-  startBtn.addEventListener('click', () => {
-    overlay.classList.add('hidden');
-    reset();
-    canvas.focus();
-  });
+  if (startBtn) {
+    startBtn.addEventListener('click', () => {
+      if (overlay) overlay.classList.add('hidden');
+      reset();
+      canvas.focus();
+    });
+  }
 
   // Speed control button cycles Slow → Normal → Fast
   function applySpeedFactor(newFactor) {
@@ -282,8 +284,8 @@
   }
   updatePauseButton();
 
-  // Start in paused state with overlay visible until user action
-  overlay.classList.remove('hidden');
+  // Auto-start the game and keep overlay hidden (no start box)
+  reset();
 
   // ---- On-screen keyboard ----
   const rows = [
@@ -518,7 +520,7 @@
 
   // Enable audio on first interaction
   window.addEventListener('keydown', () => sfx.ensure(), { once: true });
-  startBtn.addEventListener('click', () => sfx.ensure(), { once: true });
+  if (startBtn) startBtn.addEventListener('click', () => sfx.ensure(), { once: true });
 
   // Hook keyboard glow into frame
   const _origUpdate = update;
