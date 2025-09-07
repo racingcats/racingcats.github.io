@@ -332,15 +332,19 @@
   // --- Responsive keyboard scaling and layout measurement ---
   function updateKeyboardScale() {
     if (!kbRoot) return;
-    // Reset scale to measure natural width
+    // Reset scale to measure natural size (untransformed)
     kbRoot.style.setProperty('--kb-scale', '1');
-    const natural = kbRoot.scrollWidth || kbRoot.offsetWidth || 0;
-    // Target almost full screen width with a small margin
-    const targetWidth = Math.max(320, width - 20);
-    let s = 1;
-    if (natural > 0) s = targetWidth / natural; // allow upscaling to fill width
-    // Keep within reasonable bounds
-    s = Math.max(0.8, Math.min(1.6, s));
+    const naturalW = kbRoot.scrollWidth || kbRoot.offsetWidth || 0;
+    const naturalH = kbRoot.scrollHeight || kbRoot.offsetHeight || 0;
+    // Target: fit width with small margin and ensure full height fits on small screens
+    const targetW = Math.max(320, width - 20);
+    // Leave some breathing room from the top when very small screens
+    const targetH = Math.max(160, height - 24); // ensure the keyboard never exceeds viewport height
+    let sW = naturalW > 0 ? (targetW / naturalW) : 1;
+    let sH = naturalH > 0 ? (targetH / naturalH) : 1;
+    let s = Math.min(sW, sH);
+    // Keep within reasonable bounds; allow smaller downscale on phones
+    s = Math.max(0.5, Math.min(1.6, s));
     kbRoot.style.setProperty('--kb-scale', String(s));
   }
 
