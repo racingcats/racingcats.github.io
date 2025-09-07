@@ -122,9 +122,12 @@
       letter.y += letter.speed * dt;
     }
     // Remove missed
-    const playBottomY = height - reservedBottom;
+    // Miss only when touching the actual floor below the keyboard overlay
+    const groundTop = height - floorH;
+    // Only count as missed when the bottom of the glyph touches the ground
     letters = letters.filter(l => {
-      if (l.y > playBottomY - floorH) {
+      const letterBottom = l.y + letterFontSize * 0.5; // textBaseline is 'middle'
+      if (letterBottom >= groundTop) {
         missed++;
         return false;
       }
@@ -141,10 +144,9 @@
     ctx.fillStyle = '#ccffcc';
     ctx.fillRect(0, 0, width, height);
 
-    // Ground (sit above on-screen keyboard)
+    // Ground (actual floor below the keyboard)
     ctx.fillStyle = 'rgba(255 255 255 / 0.12)';
-    const playBottomY2 = height - reservedBottom;
-    ctx.fillRect(0, playBottomY2 - floorH, width, floorH);
+    ctx.fillRect(0, height - floorH, width, floorH);
 
     // HUD
     ctx.fillStyle = '#000000';
