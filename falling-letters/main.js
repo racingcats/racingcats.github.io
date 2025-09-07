@@ -402,9 +402,12 @@
   applyKeyFingerColors();
 
   function updateKeyboardGlow() {
-    // Map each letter to the color of the lowest on-screen instance
+    // Only highlight keys for letters that have crossed the screen midpoint
+    const midpointY = height * 0.5;
+    // Map each letter to the color of the lowest qualifying on-screen instance
     const latest = {};
     for (const l of letters) {
+      if (l.y < midpointY) continue; // not yet past the middle, no glow
       const prev = latest[l.c];
       if (!prev || l.y > prev.y) latest[l.c] = { color: l.color, y: l.y };
     }
