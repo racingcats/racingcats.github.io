@@ -176,7 +176,7 @@
       ctx.font = '800 42px system-ui, -apple-system, Segoe UI, Roboto';
       ctx.fillText('Game Over', width / 2, height / 2 - 8);
       ctx.font = '400 18px system-ui, -apple-system, Segoe UI, Roboto';
-      ctx.fillText('Press Space or click Start', width / 2, height / 2 + 28);
+      ctx.fillText('Press Space or any letter', width / 2, height / 2 + 28);
     }
   }
 
@@ -227,7 +227,7 @@
     if (k === ' ') {
       e.preventDefault();
       if (!running) {
-        overlay.classList.add('hidden');
+        if (overlay) overlay.classList.add('hidden');
         reset();
         return;
       }
