@@ -101,6 +101,7 @@
         transition: background 200ms ease, box-shadow 120ms ease, border-color 120ms ease;
       }
       .thumb {
+        display: block;
         border-radius: 12px;
         overflow: hidden;
         border: 1px solid rgba(255,255,255,0.06);
@@ -170,33 +171,27 @@
     <main>
       <section class="grid" aria-label="Game list">
         <article class="card">
-          <div class="thumb">
+          <a class="thumb" href="./falling-letters/" aria-label="Play Falling Letters">
             <img src="img/falling-letters.png" alt="Falling Letters — screenshot">
-          </div>
+          </a>
           <h2>Falling Letters</h2>
           <div class="badges">
             <span class="badge">Typing</span>
             <span class="badge alt">Quick Play</span>
           </div>
           <p class="desc">Colorful letters fall from the top — type A–Z to catch them. Miss too many and you lose a life. Great for practicing typing!</p>
-          <div class="actions">
-            <a class="btn" href="./falling-letters/">Play Falling Letters</a>
-          </div>
         </article>
 
         <article class="card">
-          <div class="thumb">
+          <a class="thumb" href="./tictac-takeover/" aria-label="Play Tic‑Tac Takeover">
             <img src="img/tic-tack-takeover.png" alt="Tic‑Tac Takeover — screenshot">
-          </div>
+          </a>
           <h2>Tic‑Tac Takeover</h2>
           <div class="badges">
             <span class="badge">Two Players</span>
             <span class="badge alt">Classic</span>
           </div>
           <p class="desc">A lively two‑player tic‑tac‑toe with Bullet vs. Star theme, score tracking, animations, and sound toggle.</p>
-          <div class="actions">
-            <a class="btn" href="./tictac-takeover/">Play Tic‑Tac Takeover</a>
-          </div>
         </article>
       </section>
     </main>
