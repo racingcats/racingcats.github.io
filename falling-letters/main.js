@@ -331,10 +331,12 @@
     // Reset scale to measure natural width
     kbRoot.style.setProperty('--kb-scale', '1');
     const natural = kbRoot.scrollWidth || kbRoot.offsetWidth || 0;
-    const maxWidth = Math.max(300, width - 24);
+    // Target almost full screen width with a small margin
+    const targetWidth = Math.max(320, width - 20);
     let s = 1;
-    if (natural > 0) s = Math.min(1, maxWidth / natural);
-    s = Math.max(0.68, s); // keep taps usable
+    if (natural > 0) s = targetWidth / natural; // allow upscaling to fill width
+    // Keep within reasonable bounds
+    s = Math.max(0.8, Math.min(1.6, s));
     kbRoot.style.setProperty('--kb-scale', String(s));
   }
 
